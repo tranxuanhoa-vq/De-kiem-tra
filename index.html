@@ -1,56 +1,386 @@
+
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Đề kiểm tra - Trang chủ</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f0f8ff;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin: 15px 0;
-        }
-        a {
-            text-decoration: none;
-            font-size: 18px;
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        a:hover {
-            background-color: #2980b9;
-            transform: scale(1.02);
-        }
-        .note {
-            margin-top: 30px;
-            font-style: italic;
-            color: #555;
-        }
-    </style>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Danh sách đề thi</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body {
+
+    font-family:'Be Vietnam Pro',sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef4ff,
+        #dfefff
+    );
+
+    min-height:100vh;
+
+    padding:40px 20px;
+
+    color:#1e293b;
+}
+
+.container {
+    max-width:1100px;
+    margin:auto;
+}
+
+.header {
+    margin-bottom:35px;
+}
+
+.title {
+
+    font-size:52px;
+    font-weight:800;
+
+    color:#183b66;
+
+    margin-bottom:10px;
+}
+
+.subtitle {
+
+    color:#64748b;
+    font-size:18px;
+}
+
+.grid {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(280px,1fr)
+    );
+
+    gap:22px;
+}
+
+.card {
+
+    position:relative;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    text-decoration:none;
+
+    color:inherit;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.08);
+
+    border:2px solid transparent;
+}
+
+.card:hover {
+
+    transform:translateY(-6px);
+
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 15px 35px rgba(59,130,246,.25);
+}
+
+.card::before {
+
+    content:"";
+
+    position:absolute;
+
+    top:-40px;
+    right:-40px;
+
+    width:120px;
+    height:120px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #60a5fa,
+        #2563eb
+    );
+
+    border-radius:50%;
+
+    opacity:.12;
+}
+
+.icon {
+
+    width:64px;
+    height:64px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #3b82f6,
+        #2563eb
+    );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    color:white;
+
+    margin-bottom:20px;
+}
+
+.exam-title {
+
+    font-size:28px;
+    font-weight:800;
+
+    margin-bottom:12px;
+
+    color:#0f172a;
+}
+
+.exam-code {
+
+    display:inline-block;
+
+    padding:6px 14px;
+
+    border-radius:999px;
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+    font-size:14px;
+    font-weight:700;
+
+    margin-bottom:18px;
+}
+
+.exam-info {
+
+    color:#64748b;
+
+    line-height:1.7;
+
+    font-size:15px;
+}
+
+.footer {
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:15px;
+}
+
+.footer span {
+    font-size:22px;
+}
+
+.topbar {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.count-box {
+
+    background:white;
+
+    padding:10px 18px;
+
+    border-radius:14px;
+
+    font-size:14px;
+
+    color:#475569;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.06);
+}
+
+@media(max-width:640px) {
+
+    .title {
+        font-size:38px;
+    }
+
+    .card {
+        padding:22px;
+    }
+
+    .exam-title {
+        font-size:24px;
+    }
+}
+
+</style>
+
 </head>
+
 <body>
-    <h1>📚 Danh sách đề thi</h1>
-    <ul>
-        <li><a href="de_hs_0015L1.html">📄 Đề thi mẫu (mã JINCYI)</a></li>
-        <li><a href="de_hs_XOKWP2.html">📄 Đề thi mẫu (mã JINCKI)</a></li>
-        <li><a href="update_index.html">📄 Đề thi mẫu (mã JINDKI)</a></li>
-        <li><a href="de_hs_24J67O.html">📄 Đề thi mẫu (mã JKXDKI)</a></li>
-        <!-- Nếu có thêm các file đề khác, bạn hãy thêm dòng tương tự -->
-    </ul>
-    <div class="note">
-        💡 Nhấn vào đề để làm bài. Đề được hiển thị dưới dạng HTML thân thiện.
+
+<div class="container">
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="title">
+                📚 Danh sách đề thi
+            </div>
+
+            <div class="subtitle">
+                Chọn đề để bắt đầu làm bài trực tuyến
+            </div>
+
+        </div>
+
+        <div class="count-box">
+            📋 Tổng số đề:
+            <b>3</b>
+        </div>
+
     </div>
+
+    <div class="grid">
+
+        
+    <a class="card" href="ontap_lophoc_v22.html">
+
+        <div class="icon">
+            📚
+        </div>
+
+        <div class="exam-title">
+            Đề thi
+        </div>
+
+        <div class="exam-code">
+            Mã đề: ${examCode}
+        </div>
+
+        <div class="exam-info">
+            ⏱ 90 phút<br>
+            📖 Toán<br>
+            📋 ? câu hỏi
+        </div>
+
+    </a>
+    
+    <a class="card" href="ontap_lophoc_v221.html">
+
+        <div class="icon">
+            📚
+        </div>
+
+        <div class="exam-title">
+            Đề thi
+        </div>
+
+        <div class="exam-code">
+            Mã đề: ${examCode}
+        </div>
+
+        <div class="exam-info">
+            ⏱ 90 phút<br>
+            📖 Toán<br>
+            📋 ? câu hỏi
+        </div>
+
+    </a>
+    
+    <a class="card" href="ontap_lophoc_v222.html">
+
+        <div class="icon">
+            📚
+        </div>
+
+        <div class="exam-title">
+            Đề thi
+        </div>
+
+        <div class="exam-code">
+            Mã đề: ${examCode}
+        </div>
+
+        <div class="exam-info">
+            ⏱ 90 phút<br>
+            📖 Toán<br>
+            📋 ? câu hỏi
+        </div>
+
+    </a>
+    
+
+    </div>
+
+    <div class="footer">
+
+        <span>💡</span>
+
+        Nhấn vào đề để mở bài kiểm tra HTML
+
+        <br><br>
+
+        Sinh tự động:
+        29/05/2026 16:17:19
+
+    </div>
+
+</div>
+
 </body>
 </html>
