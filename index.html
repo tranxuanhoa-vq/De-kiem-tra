@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Hệ thống đề thi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f4ff;--surface:#fff;--surface2:#f8faff;--border:#e2e8f0;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--accent:#3b5bdb;--accent2:#4dabf7;--green:#2f9e44;--red:#e03131;--orange:#e8590c;--shadow:0 4px 24px rgba(59,91,219,.12);--shadow2:0 2px 8px rgba(0,0,0,.06);--r:20px;--rsm:12px}
+[data-theme=dark]{--bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--text3:#484f58;--accent:#58a6ff;--accent2:#79c0ff;--shadow:0 4px 24px rgba(0,0,0,.4);--shadow2:0 2px 8px rgba(0,0,0,.3)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 18px 0;position:sticky;top:0;z-index:100;box-shadow:var(--shadow2)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.logo{font-size:20px;font-weight:900;color:var(--accent);display:flex;align-items:center;gap:8px}
+.school-lbl{font-size:11px;color:var(--text3);font-weight:600}
+.dark-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface2);font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--text)}
+.swrap{position:relative;margin-bottom:12px}.swrap input{width:100%;padding:12px 14px 12px 44px;border-radius:var(--rsm);border:1.5px solid var(--border);background:var(--surface2);font-family:'Nunito',sans-serif;font-size:15px;color:var(--text);outline:none;transition:.2s}.swrap input:focus{border-color:var(--accent)}.sico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+.filter-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}.filter-row::-webkit-scrollbar{display:none}
+.pill{flex-shrink:0;padding:7px 16px;border-radius:999px;border:1.5px solid var(--border);background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text2);cursor:pointer;transition:.2s;white-space:nowrap}
+.pill.active,.pill:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill.new{color:var(--green)}.pill.new.active{background:var(--green);border-color:var(--green);color:#fff}
+.pill.hot{color:var(--red)}.pill.hot.active{background:var(--red);border-color:var(--red);color:#fff}
+.pill.otn{color:var(--orange)}.pill.otn.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.grade-row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--border)}.grade-row::-webkit-scrollbar{display:none}
+.gtab{flex-shrink:0;padding:9px 16px 11px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s}
+.gtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.content{padding:18px 14px 80px;max-width:900px;margin:auto}
+.stats{display:flex;gap:10px;background:var(--surface);border-radius:var(--rsm);padding:12px 14px;margin-bottom:10px;border:1.5px solid var(--border);overflow-x:auto;scrollbar-width:none}.stats::-webkit-scrollbar{display:none}.stat-item{flex-shrink:0;text-align:center;padding:0 6px}.stat-num{font-size:21px;font-weight:900;color:var(--accent)}.stat-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.chap-hdr{font-size:12px;font-weight:800;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 10px;padding-left:4px}
+.grid{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--shadow2);overflow:hidden;display:flex;cursor:pointer;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent)}
+.thumb{width:100px;min-width:100px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px 6px;position:relative;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.thumb-ico{font-size:30px;position:relative;z-index:1}
+.grade-badge{position:relative;z-index:1;background:rgba(255,255,255,.22);backdrop-filter:blur(4px);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;border-radius:999px}
+.cbody{flex:1;padding:13px 13px 11px;min-width:0}
+.ctitle{font-size:15px;font-weight:800;line-height:1.3;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ccode{display:inline-block;padding:2px 9px;border-radius:999px;background:rgba(59,91,219,.12);color:var(--accent);font-size:11px;font-weight:700;margin-bottom:7px}
+.cmeta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--text2)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+.tag.new{color:var(--green)}.tag.hot{color:var(--red)}.tag.otn{color:var(--orange)}
+.qr-btn{position:absolute;right:10px;bottom:10px;width:32px;height:32px;border-radius:9px;background:var(--surface2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:.2s;z-index:5}
+.qr-btn:hover{background:var(--accent);border-color:var(--accent)}
+.qr-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center}
+.qr-overlay.show{display:flex}
+.qr-box{background:var(--surface);border-radius:20px;padding:26px;text-align:center;max-width:300px;width:90%}
+.qr-box img{width:170px;height:170px;border-radius:10px;margin:14px auto;display:block}
+.qr-close{padding:9px 22px;border-radius:999px;background:var(--accent);color:#fff;border:none;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:13px;margin-top:8px}
+.empty{text-align:center;padding:50px 20px;color:var(--text3)}
+.footer{text-align:center;padding:16px;font-size:12px;color:var(--text3);margin-top:16px}
+@media(min-width:560px){.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}.thumb{width:120px;min-width:120px}}
+</style>
+</head><body>
+<div class="header">
+  <div class="header-top">
+    <div><div class="logo">🎓 Hệ thống đề thi</div></div>
+    <button class="dark-btn" id="darkBtn">🌙</button>
+  </div>
+<div class="swrap"><span class="sico">🔍</span><input type="text" id="searchInput" placeholder="Tìm đề thi, mã đề..."></div>
+  <div class="filter-row">
+    <button class="pill active" data-filter="all">🗂 Tất cả</button>
+    <button class="pill new" data-filter="new">🆕 Đề mới</button>
+    <button class="pill hot" data-filter="hot">🔥 Hot</button>
+    <button class="pill otn" data-filter="otn">📘 Ôn TN</button>
+  </div>
+  <div class="grade-row" id="gradeTabs"><button class="gtab active" data-grade="all">Tất cả</button>
+<button class="gtab" data-grade="Khác">Khác</button>
+</div>
+</div>
+<div class="content">
+<div class="stats"><div class="stat-item"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Đề thi</div></div><div class="stat-item"><div class="stat-num" id="s-qs">0</div><div class="stat-lbl">Câu hỏi</div></div><div class="stat-item"><div class="stat-num" id="s-grades">0</div><div class="stat-lbl">Khối lớp</div></div><div class="stat-item"><div class="stat-num" id="s-chaps">0</div><div class="stat-lbl">Chương</div></div></div>
+  <div id="root"></div>
+  <div class="footer">Sinh tự động 30/5/2026</div>
+</div>
+<div class="qr-overlay" id="qrOverlay">
+  <div class="qr-box">
+    <div id="qrTitle" style="font-size:15px;font-weight:800;margin-bottom:4px"></div>
+    <p style="font-size:12px;color:var(--text2)">Mở đề thi trên điện thoại</p>
+    <img id="qrImg" src="" alt="QR">
+    <br><button class="qr-close" onclick="document.getElementById('qrOverlay').classList.remove('show')">Đóng</button>
+  </div>
+</div>
+<script>
+var EXAMS=[{"file":"de_hs_VRNZ4P.html","url":"de_hs_VRNZ4P.html","title":"Kiểm tra","code":"VRNZ4P","duration":"45","grade":"Khác","chapter":"Chung","questions":24,"tags":["new"],"thumb":"","created":"30/5/2026","qr":"data:image/gif;base64,R0lGODdhaABoAIAAAAAAAP///ywAAAAAaABoAAAC/4yPqcvtD6OctNqLgd68+49wzAeE5GaeKnisbpeWCxnT7YvX+BmPrOHS7X6BYfCm8XmEMKTRBkRdRDPi0UG1ZItSbTcB5aogW8q2PEFHl86wUuZNOjNfJlMNrqe/51Wvzae31qTQNzaHOBhmSCgGl8dWGHg4+KdoNdmI55bouJh5BwooV1kVCfl45WjpiUlawbiZ+fka6/poNiu4OqopenmKR6b7yqrKGFq7O6x8auzXaRu8i9zLnApdqt06XRxNjGuKTcm7fUz9yx0u2czz3U67Xj7PyT7ubr78IC2f2073bwo4DM+8SagW556wPQETsvKnUN/BdBCTGSl4D6PFIf8bd2h8l7HXE3gjEdJLx69kxxwgP+Yr6YxgwngPZdq8CcxXQ5w8ZZ7b2TMorGwnDQo1+QapSIqdXBbtZ63pUqBSX4bclpRpTqVYW3rFcitrN3myqNr7CdUqR5D1Gqztam+lzogxwbKEi0quSVXX0F7Ti5JoRXF9Jarj6tZwTbx29hFdGJchWcNtLS5ObPSNZsd1UdGULPYFRn6bt4blfJHtQMJT5xa++5Q0a9NjX4tWTdJoytN203r2GFUt8MjEI6gMHnt43tnGRzYWDvsy5N+wP9PGt7z3XiKlqd8uPt26ur/i3mafF3o0ZXRPuofnPR51aL5f4599fMt8vO2d9ef/V75fYP0B+F91BV5ln3cB5vZdguJBhJhfNk0HkGvlwVehUMiVhR2F8mnoIHsdKvbhRAaSAyE49IFHIIqS7eYiiydilyKDK57nX4zNjWVedyCihxpilw3Zk4c5EclYVUeReKSSSAKpoZEhZuYkbjA9ByVmCL5no3MbMvnUkzCm1mSSMiLoHkw8aqWlU2lS2Vt6zFX2pW5gSsedlbbhCWebF9rJ4J5KSslnI+r1+aCVQv4513HXHWqhiSOqaZmibM6nYouT0hXpjps6epiAm8pp5pScclgpXonet9ONYxa6aJnJDdilWaYKCp2hlraa56MlZimehLKm6qeq8AmbILFvTk5WW2uQYooom6t6aht/vtFZ3GDaHbteZz6CFiS30XrLnLZaBtutrttS6iyjOW6ZaXvtskpmmLvW66qa8PKqb7zMXlkfoT8OTHDBBttUAAA7"}];
+var htmlEl=document.documentElement;
+var darkBtn=document.getElementById('darkBtn');
+var dark=htmlEl.getAttribute('data-theme')=='dark';
+function applyDark(){htmlEl.setAttribute('data-theme',dark?'dark':'light');darkBtn.textContent=dark?'☀️':'🌙';}
+applyDark();
+darkBtn.onclick=function(){dark=!dark;localStorage.setItem('dark',dark?'1':'0');applyDark();};
+var filterTag='all',filterGrade='all',searchQ='';
+document.getElementById('searchInput').addEventListener('input',function(e){searchQ=e.target.value.toLowerCase();render();});
+document.querySelectorAll('.pill').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.pill').forEach(function(x){x.classList.remove('active');});b.classList.add('active');filterTag=b.dataset.filter;render();});});
+document.querySelectorAll('.gtab').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.gtab').forEach(function(x){x.classList.remove('active');});b.classList.add('active');filterGrade=b.dataset.grade;render();});});
+function getFiltered(){return EXAMS.filter(function(e){
+  if(filterGrade!=='all'&&e.grade!==filterGrade)return false;
+  if(filterTag==='new'&&e.tags.indexOf('new')<0)return false;
+  if(filterTag==='hot'&&e.tags.indexOf('hot')<0)return false;
+  if(filterTag==='otn'&&e.tags.indexOf('otn')<0)return false;
+  if(searchQ){var h=(e.title+e.code+e.chapter+e.grade+e.tags.join(' ')).toLowerCase();if(h.indexOf(searchQ)<0)return false;}
+  return true;
+});}
+var tagLabels={'new':'🆕 Đề mới','hot':'🔥 Hot','otn':'📘 Ôn TN'};
+function tagBadges(tags){return tags.map(function(t){
+  var cls=['new','hot','otn'].indexOf(t)>=0?t:'';
+  return '<span class="tag '+cls+'">'+(tagLabels[t]||t)+'</span>';
+}).join('');}
+function cardHtml(ex){
+var tc=ex.thumb?'<img src="'+ex.thumb+'" alt="">':'<span class="thumb-ico">📝</span>';
+  var gb=ex.grade&&ex.grade!=='Khác'?'<span class="grade-badge">Lớp '+ex.grade+'</span>':'';
+  var cd=ex.code?'<span class="ccode">Mã: '+ex.code+'</span><br>':'';
+  var qb=ex.qr?'<button class="qr-btn" onclick="showQr(event,this)" data-title="'+ex.title.replace(/"/g,'&quot;')+'" data-qr="'+ex.qr+'">📱</button>':'';
+  return '<a class="card" href="'+ex.file+'">'
+    +'<div class="thumb">'+tc+gb+'</div>'
+    +'<div class="cbody"><div class="ctitle">'+ex.title+'</div>'+cd
+    +'<div class="cmeta"><span>⏱ '+ex.duration+' phút</span><span>📋 '+ex.questions+' câu</span><span>📅 '+ex.created+'</span></div>'
+    +(ex.tags.length?'<div class="tags">'+tagBadges(ex.tags)+'</div>':'')+'</div>'+qb+'</a>';
+}
+function render(){
+  var list=getFiltered();
+  var root=document.getElementById('root');
+document.getElementById('s-total').textContent=list.length;document.getElementById('s-qs').textContent=list.reduce(function(s,e){return s+e.questions;},0);var gs={};var cs={};list.forEach(function(e){gs[e.grade]=1;cs[e.chapter]=1;});document.getElementById('s-grades').textContent=Object.keys(gs).length;document.getElementById('s-chaps').textContent=Object.keys(cs).length;
+  if(!list.length){root.innerHTML='<div class="empty">🔍 Không tìm thấy đề phù hợp</div>';return;}
+var byC={};list.forEach(function(e){if(!byC[e.chapter])byC[e.chapter]=[];byC[e.chapter].push(e);});var h='';Object.keys(byC).sort().forEach(function(ch){h+='<div class="chap-hdr">'+ch+'</div><div class="grid">';byC[ch].forEach(function(e){h+=cardHtml(e);});h+='</div>';});root.innerHTML=h;
+}
+function showQr(e,btn){
+  e.preventDefault();
+  document.getElementById('qrTitle').textContent=btn.getAttribute('data-title');
+  document.getElementById('qrImg').src=btn.getAttribute('data-qr');
+  document.getElementById('qrOverlay').classList.add('show');
+}
+document.getElementById('qrOverlay').addEventListener('click',function(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');});
+render();
+</script>
+</body></html>
